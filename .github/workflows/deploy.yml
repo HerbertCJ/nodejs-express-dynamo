@@ -5,43 +5,43 @@ on:
     branches:
       - main
     paths:
-      - '**/Dockerfile'
-      - '**/*.ts'
-      - '**/*.js'
+      - "app/Dockerfile"
+      - "app/package.json"
+      - "app/src/**"
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up AWS credentials
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1
+      - name: Set up AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
 
-    - name: Log in to Amazon ECR
-      run: |
-        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
+      - name: Log in to Amazon ECR
+        run: |
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
 
-    - name: Build Docker image
-      run: |
-        docker build -t backend-lambda-repo .
+      - name: Build Docker image
+        run: |
+          docker build -t backend-lambda-repo .
 
-    - name: Tag Docker image
-      run: |
-        docker tag backend-lambda-repo:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/backend-lambda-repo:latest
+      - name: Tag Docker image
+        run: |
+          docker tag backend-lambda-repo:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/backend-lambda-repo:latest
 
-    - name: Push Docker image to ECR
-      run: |
-        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/backend-lambda-repo:latest
+      - name: Push Docker image to ECR
+        run: |
+          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/backend-lambda-repo:latest
 
-    - name: Update Lambda function to use new Docker image
-      run: |
-        aws lambda update-function-code \
-          --function-name BackendLambda \
-          --image-uri ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/backend-lambda-repo:latest
+      - name: Update Lambda function to use new Docker image
+        run: |
+          aws lambda update-function-code \
+            --function-name BackendLambda \
+            --image-uri ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com/backend-lambda-repo:latest
