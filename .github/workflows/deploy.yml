@@ -28,6 +28,9 @@ jobs:
         run: |
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
 
+      - name: Set working directory to app
+        run: cd app
+
       - name: Build Docker image
         run: |
           docker build --no-cache -t backend-lambda-repo -f app/Dockerfile .
