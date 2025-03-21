@@ -11,6 +11,7 @@ app.use(cors())
 app.use(express.json())
 app.use(appRouter)
 app.use(errorHandlerMiddleware())
+console.log('Testing WorkFlow change')
 
 process.on('SIGTERM', async () => {
     console.info('[express] SIGTERM received')
