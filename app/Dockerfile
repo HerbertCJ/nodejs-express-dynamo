@@ -8,5 +8,7 @@ ADD tsconfig.json /var/task/tsconfig.json
 ADD src/ /var/task/src
 RUN npm install
 RUN npm run build
-ADD /var/task/dist /var/task
+RUN pwd
+RUN ls -la
+ADD dist/ /var/task
 CMD ["node", "server.js"]

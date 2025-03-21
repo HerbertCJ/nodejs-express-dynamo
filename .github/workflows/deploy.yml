@@ -28,8 +28,10 @@ jobs:
         run: |
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
 
-      - name: Set working directory to app
-        run: cd app
+      - name: Pwd
+        run: pwd
+      - name: LS
+        run: ls -aln
 
       - name: Build Docker image
         run: |
