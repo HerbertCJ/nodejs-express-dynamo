@@ -24,13 +24,17 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
+      - name: Verify dist directory exists
+        run: |
+          ls -la app/dist/
+
       - name: Log in to Amazon ECR
         run: |
           aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
 
       - name: Build Docker image
         run: |
-          docker build --no-cache -t backend-lambda-repo -f app/Dockerfile .
+          docker build -t backend-lambda-repo -f app/Dockerfile .
 
       - name: Tag Docker image
         run: |

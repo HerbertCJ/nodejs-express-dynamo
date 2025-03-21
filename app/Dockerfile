@@ -6,5 +6,5 @@ ADD package.json /var/task/package.json
 ADD package-lock.json /var/task/package-lock.json
 RUN npm install --omit=dev
 RUN npm run build
-ADD dist/ /var/task
+COPY app/dist/ /var/task
 CMD ["node", "server.js"]
