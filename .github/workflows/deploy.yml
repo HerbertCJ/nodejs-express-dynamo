@@ -30,7 +30,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t backend-lambda-repo -f app/Dockerfile .
+          docker build --no-cache -t backend-lambda-repo -f app/Dockerfile .
 
       - name: Tag Docker image
         run: |
