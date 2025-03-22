@@ -5,9 +5,8 @@ WORKDIR "/var/task"
 ADD package.json package.json
 ADD package-lock.json package-lock.json
 ADD tsconfig.json tsconfig.json
-ADD src/ src
+ADD app/src/ src
 RUN npm install
 RUN npm run build
 RUN rm -rf src
-RUN cp -r dist/* . && rm -rf dist
 CMD ["node", "server.js"]
