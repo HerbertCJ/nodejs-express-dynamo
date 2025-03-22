@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "app/Dockerfile"
+      - "Dockerfile"
       - "app/package.json"
       - "app/src/**"
 
