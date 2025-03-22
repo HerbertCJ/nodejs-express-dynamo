@@ -4,7 +4,7 @@ import { ConditionalCheckFailedException } from '@aws-sdk/client-dynamodb'
 import { dynamo } from '../config/database'
 import { ConflictError } from '../types/errors'
 
-const TABLE_NAME = 'users'
+const TABLE_NAME = 'Users'
 
 export async function findAllUsers() {
     const command = new ScanCommand({
