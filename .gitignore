@@ -1,6 +1,3 @@
 node_modules
 .env
 dist
-.aws-sam
-template.yml
-samconfig.toml
